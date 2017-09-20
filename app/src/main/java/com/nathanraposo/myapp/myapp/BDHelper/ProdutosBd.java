@@ -52,10 +52,30 @@ public class ProdutosBd extends SQLiteOpenHelper {
         getWritableDatabase().insert("produtos", null, values);
     }
 
+    public void alterar(Produtos produtosModel) {
+        ContentValues values = new ContentValues();
+
+        //buscando valores e colocando dentro da string values
+        values.put("nome", produtosModel.getNome());
+        values.put("descricao", produtosModel.getDescricao());
+        values.put("quantidade", produtosModel.getQuantidade());
+
+        String [] args = {produtosModel.getId().toString()};
+        //chamando o metodo e inserindo os dados na tabela passando os valores
+        getWritableDatabase().update("produtos",values, "id=?",args);
+    }
+
+    public void deletar(Produtos produtosModel){
+        String [] args = {produtosModel.getId().toString()};
+        //chamando o metodo e inserindo os dados na tabela passando os valores
+        getWritableDatabase().delete("produtos","id=?",args);
+    }
+
     //metodo listar retornar uma lista de todos os produtos salvos no banco
     public ArrayList<Produtos> getListar() {
+
         //colunas do metodo para consulta
-        String[] colunas ={"id", "nome", "descricao", "quantidade"};
+        String[] colunas = {"id", "nome", "descricao", "quantidade"};
         Cursor cursor = getWritableDatabase().query("produtos", colunas, null, null, null, null, null, null);
         ArrayList<Produtos> produtosModel = new ArrayList<Produtos>();
 
@@ -68,8 +88,13 @@ public class ProdutosBd extends SQLiteOpenHelper {
             produto.setQuantidade(cursor.getInt(3));
             //add o produto no array para dar o retorno
             produtosModel.add(produto);
+            System.out.println("Nome :"+cursor.getString(1));
+            System.out.println("desce :"+cursor.getString(2));
+            System.out.println("qtd :"+cursor.getString(3));
         }
 
         return produtosModel;
     }
+
+
 }

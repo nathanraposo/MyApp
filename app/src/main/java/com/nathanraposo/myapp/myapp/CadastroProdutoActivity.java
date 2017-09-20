@@ -14,7 +14,7 @@ import com.nathanraposo.myapp.myapp.model.Produtos;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CadastroProdutoActivity extends AppCompatActivity {
+public class CadastroProdutoActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.editText_NomeProduto)
     EditText editTextNomeProduto;
@@ -34,36 +34,38 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_produto);
         ButterKnife.bind(this);
-        Intent intent  = getIntent();
+        Intent intent = getIntent();
         editarProdutos = (Produtos) intent.getSerializableExtra("produto-escolhido");
         bdHelper = new ProdutosBd(this);
+        produtoModel = new Produtos();
 
 
-        if(editarProdutos != null){
+        if (editarProdutos != null) {
             buttonSalvar.setText("ALTERAR");
-        }else{
+        } else {
             buttonSalvar.setText("SALVAR");
         }
-
-        buttonSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setDadosProduto();
-                if(buttonSalvar.getText().toString().equals("SALVAR")){
-                    bdHelper.salvar(produtoModel);
-                    bdHelper.close();
-                    Toast.makeText(CadastroProdutoActivity.this, "Item salvo com sucesso!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        buttonSalvar.setOnClickListener(this);
 
     }
 
-    public void setDadosProduto(){
-        System.out.println("nome produto"+editTextNomeProduto.getText().toString());
-        produtoModel.setNome(editTextNomeProduto.getText().toString());
-        produtoModel.setDescricao(editTextDescricaoProduto.getText().toString());
-        produtoModel.setQuantidade(Integer.parseInt(editTextQuantidadeProduto.getText().toString()));
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_Salvar) {
+            produtoModel.setNome(editTextNomeProduto.getText().toString());
+            produtoModel.setDescricao(editTextDescricaoProduto.getText().toString());
+            produtoModel.setQuantidade(Integer.parseInt(editTextQuantidadeProduto.getText().toString()));
+
+            if (buttonSalvar.getText().toString().equals("SALVAR")) {
+                bdHelper.salvar(produtoModel);
+                bdHelper.close();
+                Toast.makeText(CadastroProdutoActivity.this, "Item salvo com sucesso!", Toast.LENGTH_SHORT).show();
+            } else {
+                bdHelper.alterar(produtoModel);
+                bdHelper.close();
+            }
+
+        }
+
     }
 }
