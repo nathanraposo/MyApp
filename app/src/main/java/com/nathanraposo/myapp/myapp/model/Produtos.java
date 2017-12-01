@@ -1,10 +1,12 @@
 package com.nathanraposo.myapp.myapp.model;
 
+import java.io.Serializable;
+
 /**
  * Created by nathan on 20/09/17.
  */
 
-public class Produtos {
+public class Produtos implements Serializable {
 
     private Long id;
     private String nome;

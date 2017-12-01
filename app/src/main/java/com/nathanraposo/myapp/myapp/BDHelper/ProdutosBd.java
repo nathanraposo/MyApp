@@ -60,15 +60,15 @@ public class ProdutosBd extends SQLiteOpenHelper {
         values.put("descricao", produtosModel.getDescricao());
         values.put("quantidade", produtosModel.getQuantidade());
 
-        String [] args = {produtosModel.getId().toString()};
+        String[] args = {produtosModel.getId().toString()};
         //chamando o metodo e inserindo os dados na tabela passando os valores
-        getWritableDatabase().update("produtos",values, "id=?",args);
+        getWritableDatabase().update("produtos", values, "id=?", args);
     }
 
-    public void deletar(Produtos produtosModel){
-        String [] args = {produtosModel.getId().toString()};
+    public void deletar(Produtos produtosModel) {
+        String[] args = {produtosModel.getId().toString()};
         //chamando o metodo e inserindo os dados na tabela passando os valores
-        getWritableDatabase().delete("produtos","id=?",args);
+        getWritableDatabase().delete("produtos", "id=?", args);
     }
 
     //metodo listar retornar uma lista de todos os produtos salvos no banco
@@ -88,13 +88,7 @@ public class ProdutosBd extends SQLiteOpenHelper {
             produto.setQuantidade(cursor.getInt(3));
             //add o produto no array para dar o retorno
             produtosModel.add(produto);
-            System.out.println("Nome :"+cursor.getString(1));
-            System.out.println("desce :"+cursor.getString(2));
-            System.out.println("qtd :"+cursor.getString(3));
         }
-
         return produtosModel;
     }
-
-
 }

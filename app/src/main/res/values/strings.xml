@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">My App</string>
+    <string name="addmob_banner_id">ca-app-pub-3233083224212803/6490345526</string>
+    <string name="addmob_instersticial_id">ca-app-pub-3233083224212803/8600012858</string>
+    <string name="main_text">Seja bem-vindo!</string>
 </resources>
